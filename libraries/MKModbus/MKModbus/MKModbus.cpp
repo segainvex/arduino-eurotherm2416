@@ -7,6 +7,9 @@ MKModbus::MKModbus(SoftwareSerial &SoftwareRS232)
   this->lastrun  = ::millis();
   // Init debug Level
   verbose=false;
+  txControl=pinTxRx;
+  pinMode(txControl,OUTPUT);
+  digitalWrite(txControl,RS485Receive);
   
   // Search for device address, perform tests
   
@@ -146,13 +149,16 @@ void MKModbus::sendBuffer()
   if (!timeDelay<4) { timeDelay=0; }
   ::delay(timeDelay);  
   this->lastrun  = ::millis();
+  digitalWrite(txControl,RS485Transmit);
+  delay(1);
   
   for (i=0; i < outBufferSize; i++)
   {
     this->mySerial->write(outBuffer[i]);
     ::delay(0.1); //give the processor some time
   }
-  
+    digitalWrite(txControl,RS485Receive);
+    delay(1);
   //Display afterwards to avoid delay
   if (verbose)
   {
