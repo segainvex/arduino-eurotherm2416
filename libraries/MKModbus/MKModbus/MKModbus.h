@@ -8,11 +8,13 @@
 #define txPinOven 9
 
 #define  MAX_BUFFER  64
+#define RS485Transmit    HIGH
+#define RS485Receive    LOW  
 
 
 class MKModbus {
 public:
-	MKModbus(SoftwareSerial &SoftwareRS232) ;  //Constructor
+	MKModbus(SoftwareSerial &SoftwareRS232,byte pinTxRx) ;  //Constructor
 	~MKModbus(); //Destructor
 	void deliver(byte *message, byte sizeofMessage);
 	void debug(HardwareSerial &Serial);
